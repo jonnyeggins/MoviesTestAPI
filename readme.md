@@ -6,6 +6,7 @@
 	
 
 Copy files from Github
+
 ```git clone https://github.com/jonnyeggins/MoviesTestAPI.git```
 
 Copy and Setup env file with your MYSQL details
@@ -52,6 +53,7 @@ Install database dummy data
 - **`DELETE` /genres/{id}**
 
 
+----------------------
 
 > ## Example curl
 >
