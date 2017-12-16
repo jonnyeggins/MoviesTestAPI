@@ -58,6 +58,12 @@ Install database dummy data
 - **`PATCH` /genres/{id}**
 - **`DELETE` /genres/{id}**
 
+### Image Upload (Not Released)
+
+**Note:** S3 Bucket Required
+
+- **`POST` /upload-movie-image**
+- **`POST` /upload-actor-image**
 
 ----------------------
 
