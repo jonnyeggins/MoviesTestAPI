@@ -22,12 +22,18 @@ Install database dummy data
 ```php artisan db:seed```
 
 
+
+
+----------------------
+
+**API URL**: /api/v1/{ENDPOINTS}
+
 ** Default Token for API:** 	skdq90pokalsm4390weiojskm390weiosdklm29e0wioajslzk
 
-
+----------------------
 
 ## API Endpoints ##
-#### Movies
+### Movies
 
 - **`GET` /movies**
 - **`GET` /movies/{id}**
