@@ -12,53 +12,10 @@ class TestController extends Controller
 		//testMovies
 		$path = '/movies';
 		$method = 'get';
-		$this->runTest2($path,$method);
+		$this->runTest($path,$method);
 	}
+    
     public function runTest($path,$method){
-    	//get the token from the database to test with
-    	$userDetails = DB::table('users')->get();
-    	$token = $userDetails[0]->api_token;
-		// $login = 'login';
-		// $password = 'password';
-		$url = config('app.url').'/api/v1/'.$path;
-		$ch = curl_init();
-
-
-		if ($method == 'post'){
-			curl_setopt($ch, CURLOPT_POST, 1);
-		} else if ($method == 'patch'){
-			curl_setopt($ch, CURLOPT_PATCH, 1);
-		} else if ($method == 'delete'){
-			curl_setopt($ch, CURLOPT_DELETE, 1);
-		} else {
-			curl_setopt($ch, CURLOPT_HTTPGET, 1);
-		}
-		
-
-		curl_setopt($ch, CURLOPT_URL,$url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-		// curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		// curl_setopt($ch, CURLOPT_USERPWD, "$login:$password");
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-	    'Content-Type: application/json',
-	    'Authorization: Bearer ' . $token
-	    ));
-
-		try {
-
-			$result = curl_exec($ch);
-
-			if(curl_errno($ch)){
-			    echo 'Request Error:' . curl_error($ch);
-			}
-			curl_close($ch);  
-			echo($result);
-		} catch(Exception $e){
-			print_r($e->getMessage());
-		}
-
-    }
-    public function runTest2($path,$method){
     	//get the token from the database to test with
     	$userDetails = DB::table('users')->get();
     	$token = $userDetails[0]->api_token;

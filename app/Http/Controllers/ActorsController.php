@@ -34,6 +34,15 @@ class ActorsController extends Controller
      */
     public function store(Request $request)
     {
+    	//check to make sure they have a name
+    	if (request('name') == ''){
+	    	$returnData = array(
+			    'status' => 'error',
+			    'message' => 'Make sure all fields are filled in correcly'
+			);
+			return Response::json($returnData, 500);
+
+		}
         Actor::create(request(['name','birth_date','age','bio','image']));
     }
 
@@ -58,6 +67,16 @@ class ActorsController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+    	//check to make sure they have a name
+    	if (request('name') == ''){
+	    	$returnData = array(
+			    'status' => 'error',
+			    'message' => 'Make sure all fields are filled in correcly'
+			);
+			return Response::json($returnData, 500);
+
+		}
         $actor = App\Actor::find($id);
 
         $actor->name = request('name');

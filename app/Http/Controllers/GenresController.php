@@ -25,6 +25,11 @@ class GenresController extends Controller
      */
     public function store(Request $request)
     {
+    	$returnData = array(
+			    'status' => 'error',
+			    'message' => 'Name cannot be blank'
+		);
+		return Response::json($returnData, 500);
         Genre::create(request(['name']));
     }
 
@@ -51,6 +56,14 @@ class GenresController extends Controller
     public function update(Request $request, $id)
     {
         $genre = Genre::find($id);
+        //make sure they have a name 
+		if (request('name') == ''){
+		   	$returnData = array(
+			    'status' => 'error',
+			    'message' => 'Name cannot be blank'
+			);
+			return Response::json($returnData, 500);
+        }
         $genre->name = request('name');
         $genre->save();
     }

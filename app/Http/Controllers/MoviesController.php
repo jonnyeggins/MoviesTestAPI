@@ -34,6 +34,15 @@ class MoviesController extends Controller
      */
     public function store(Request $request)
     {
+        //check to make sure they have a name
+        if (request('name') == ''){
+            $returnData = array(
+                'status' => 'error',
+                'message' => 'Make sure all fields are filled in correcly'
+            );
+            return Response::json($returnData, 500);
+
+        }
         return Movie::create(request(['name','genre','description','rating']));
     }
 
@@ -58,6 +67,16 @@ class MoviesController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        //check to make sure they have a name
+        if (request('name') == ''){
+            $returnData = array(
+                'status' => 'error',
+                'message' => 'Make sure all fields are filled in correcly'
+            );
+            return Response::json($returnData, 500);
+
+        }
         $movie = Movie::find($id);
 
         $movie->name = request('name');
