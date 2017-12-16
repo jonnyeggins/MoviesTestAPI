@@ -34,8 +34,14 @@ Route::group(['prefix' => 'v1','middleware' => 'auth:api'],	function(){
 		Route::get('/genres/{id}','GenresController@show');
 		Route::patch('/genres/{id}','GenresController@update');
 		Route::delete('/genres/{id}','GenresController@destroy');
-		
-		Route::post('/uploadActorImage',function(){
+
+		Route::post('/upload-actor-image',function(){
+			//upload the image to s3
+			//$file = request()->file('avatar');
+			//$file->storeAs('actors/'.auth()->id.'actor.jpg');
+
+		});
+		Route::post('/upload-movie-image',function(){
 			//upload the image to s3
 			//$file = request()->file('avatar');
 			//$file->storeAs('actors/'.auth()->id.'actor.jpg');
