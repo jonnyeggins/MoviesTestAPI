@@ -41,23 +41,23 @@ class ActorsController extends Controller
 			    'status' => 'error',
 			    'message' => 'Make sure all fields are filled in correcly'
 			);
-			return Response::json($returnData, 500);
+			return \Response::json($returnData, 500);
 		}
 		try {
         	Actor::create(request(['name','birth_date','age','bio','image']));
 
         	$returnData = array(
                 'status' => 'success',
-                'message' => 'Actor Created';
+                'message' => 'Actor Created'
             );
-            return Response::json($returnData, 200);
+            return \Response::json($returnData, 200);
 
         } catch (Exception $e){
     		$returnData = array(
 			    'status' => 'error',
 			    'message' => $e->getMessage()
 			);
-			return Response::json($returnData, 500);
+			return \Response::json($returnData, 500);
     	}
 
         
@@ -91,7 +91,7 @@ class ActorsController extends Controller
 			    'status' => 'error',
 			    'message' => 'Make sure all fields are filled in correcly'
 			);
-			return Response::json($returnData, 500);
+			return \Response::json($returnData, 500);
 
 		}
 		try {
@@ -106,16 +106,16 @@ class ActorsController extends Controller
 
 	        $returnData = array(
 				    'status' => 'success',
-				    'message' => 'Updated Successfully';
+				    'message' => 'Updated Successfully'
 				);
-			return Response::json($returnData, 200);
+			return \Response::json($returnData, 200);
 
     	} catch (Exception $e){
     		$returnData = array(
 			    'status' => 'error',
 			    'message' => $e->getMessage()
 			);
-			return Response::json($returnData, 500);
+			return \Response::json($returnData, 500);
     	}
     }
 
@@ -135,16 +135,16 @@ class ActorsController extends Controller
 
             $returnData = array(
                 'status' => 'success',
-                'message' => 'Movie Deleted';
+                'message' => 'Movie Deleted'
             );
-            return Response::json($returnData, 200);
+            return \Response::json($returnData, 200);
 
         } catch (Exception $e){
             $returnData = array(
                 'status' => 'error',
                 'message' => $e->getMessage()
             );
-            return Response::json($returnData, 500);
+            return \Response::json($returnData, 500);
         }
     }
 }

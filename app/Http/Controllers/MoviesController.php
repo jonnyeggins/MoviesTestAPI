@@ -40,24 +40,29 @@ class MoviesController extends Controller
                 'status' => 'error',
                 'message' => 'Make sure all fields are filled in correcly'
             );
-            return Response::json($returnData, 500);
+            return \Response::json($returnData, 500);
 
         }
         try {
+            $movie_id = request('id');
+            $actors = request('actors');
+            foreach ($actors as $actor){
+                Movie::insertActorMovieRelationship($movie_id,$actor->id,$actor->character);
+            }
             Movie::create(request(['name','genre','description','rating']));
 
             $returnData = array(
                 'status' => 'success',
-                'message' => 'Movie Created';
+                'message' => 'Movie Created'
             );
-            return Response::json($returnData, 200);
+            return \Response::json($returnData, 200);
 
         } catch (Exception $e){
             $returnData = array(
                 'status' => 'error',
                 'message' => $e->getMessage()
             );
-            return Response::json($returnData, 500);
+            return \Response::json($returnData, 500);
         }
 
     }
@@ -90,12 +95,20 @@ class MoviesController extends Controller
                 'status' => 'error',
                 'message' => 'Make sure all fields are filled in correctly'
             );
-            return Response::json($returnData, 500);
+            return \Response::json($returnData, 500);
 
         }
 
         try {
             $movie = Movie::find($id);
+
+            //delete all the movie/actor relationships 
+            Movie::deleteActorMovieRelationship($id);
+            //add in all the relationships again
+            $actors = request('actors');
+            foreach ($actors as $actor){
+                Movie::insertActorMovieRelationship($id,$actor->id,$actor->character);
+            }
 
             $movie->name = request('name');
             $movie->genre_id = request('genre_id');
@@ -107,16 +120,16 @@ class MoviesController extends Controller
             $movie->save();
             $returnData = array(
                 'status' => 'success',
-                'message' => 'Updated Successfully';
+                'message' => 'Updated Successfully'
             );
-            return Response::json($returnData, 200);
+            return \Response::json($returnData, 200);
 
         } catch (Exception $e){
             $returnData = array(
                 'status' => 'error',
                 'message' => $e->getMessage()
             );
-            return Response::json($returnData, 500);
+            return \Response::json($returnData, 500);
         }
     }
 
@@ -136,16 +149,16 @@ class MoviesController extends Controller
 
             $returnData = array(
                 'status' => 'success',
-                'message' => 'Movie Deleted';
+                'message' => 'Movie Deleted'
             );
-            return Response::json($returnData, 200);
+            return \Response::json($returnData, 200);
 
         } catch (Exception $e){
             $returnData = array(
                 'status' => 'error',
                 'message' => $e->getMessage()
             );
-            return Response::json($returnData, 500);
+            return \Response::json($returnData, 500);
         }
     }
 }

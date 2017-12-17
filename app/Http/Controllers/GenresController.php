@@ -34,7 +34,7 @@ class GenresController extends Controller
 				    'status' => 'error',
 				    'message' => 'Name cannot be blank'
 			);
-			return Response::json($returnData, 500);
+			return \Response::json($returnData, 500);
 		}
 
 		try {
@@ -42,16 +42,16 @@ class GenresController extends Controller
 
         	$returnData = array(
                 'status' => 'success',
-                'message' => 'Genre Created';
+                'message' => 'Genre Created'
             );
-            return Response::json($returnData, 200);
+            return \Response::json($returnData, 200);
 
         } catch (Exception $e){
     		$returnData = array(
 			    'status' => 'error',
 			    'message' => $e->getMessage()
 			);
-			return Response::json($returnData, 500);
+			return \Response::json($returnData, 500);
     	}
     }
 
@@ -85,22 +85,22 @@ class GenresController extends Controller
 				    'status' => 'error',
 				    'message' => 'Name cannot be blank'
 				);
-				return Response::json($returnData, 500);
+				return \Response::json($returnData, 500);
 	        }
 	        $genre->name = request('name');
 	        $genre->save();
 	        $returnData = array(
 			    'status' => 'success',
-			    'message' => 'Updated Successfully';
+			    'message' => 'Updated Successfully'
 			);
-			return Response::json($returnData, 200);
+			return \Response::json($returnData, 200);
 
     	} catch (Exception $e){
     		$returnData = array(
 			    'status' => 'error',
 			    'message' => $e->getMessage()
 			);
-			return Response::json($returnData, 500);
+			return \Response::json($returnData, 500);
     	}
     }
 
@@ -119,16 +119,16 @@ class GenresController extends Controller
 
         	$returnData = array(
 			    'status' => 'success',
-			    'message' => 'Genre Deleted';
+			    'message' => 'Genre Deleted'
 			);
-			return Response::json($returnData, 200);
+			return \Response::json($returnData, 200);
 
     	} catch (Exception $e){
     		$returnData = array(
 			    'status' => 'error',
 			    'message' => $e->getMessage()
 			);
-			return Response::json($returnData, 500);
+			return \Response::json($returnData, 500);
     	}
 
     }
