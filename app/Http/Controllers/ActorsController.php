@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Actor;
 
 class ActorsController extends Controller
 {
@@ -13,7 +14,7 @@ class ActorsController extends Controller
      */
     public function getActorsByGenre($genre_id)
     {
-        return \App\Actor::getActorsInGenre($genre_id);
+        return Actor::getActorsInGenre($genre_id);
     }
 
     /**
@@ -23,7 +24,7 @@ class ActorsController extends Controller
      */
     public function index()
     {
-       return \App\Actor::getActors();
+       return Actor::getActors();
     }
 
     /**
@@ -41,9 +42,25 @@ class ActorsController extends Controller
 			    'message' => 'Make sure all fields are filled in correcly'
 			);
 			return Response::json($returnData, 500);
-
 		}
-        Actor::create(request(['name','birth_date','age','bio','image']));
+		try {
+        	Actor::create(request(['name','birth_date','age','bio','image']));
+
+        	$returnData = array(
+                'status' => 'success',
+                'message' => 'Actor Created';
+            );
+            return Response::json($returnData, 200);
+
+        } catch (Exception $e){
+    		$returnData = array(
+			    'status' => 'error',
+			    'message' => $e->getMessage()
+			);
+			return Response::json($returnData, 500);
+    	}
+
+        
     }
 
     /**
@@ -54,7 +71,7 @@ class ActorsController extends Controller
      */
     public function show($id)
     {
-         return \App\Actor::getActor($id);
+         return Actor::getActor($id);
     }
 
 
@@ -77,14 +94,29 @@ class ActorsController extends Controller
 			return Response::json($returnData, 500);
 
 		}
-        $actor = App\Actor::find($id);
+		try {
+	        $actor = Actor::find($id);
 
-        $actor->name = request('name');
-        $actor->birth_date = request('birth_date');
-        $actor->age = request('age');
-        $actor->bio = request('bio');
-        $actor->image = request('image');
-        $actor->save();
+	        $actor->name = request('name');
+	        $actor->birth_date = request('birth_date');
+	        $actor->age = request('age');
+	        $actor->bio = request('bio');
+	        $actor->image = request('image');
+	        $actor->save();
+
+	        $returnData = array(
+				    'status' => 'success',
+				    'message' => 'Updated Successfully';
+				);
+			return Response::json($returnData, 200);
+
+    	} catch (Exception $e){
+    		$returnData = array(
+			    'status' => 'error',
+			    'message' => $e->getMessage()
+			);
+			return Response::json($returnData, 500);
+    	}
     }
 
     /**
@@ -95,8 +127,24 @@ class ActorsController extends Controller
      */
     public function destroy($id)
     {
-        $actor = App\Actor::find($id);
+        
+        try {
+            $actor = Actor::find($id);
 
-        $actor->delete();
+            $actor->delete();
+
+            $returnData = array(
+                'status' => 'success',
+                'message' => 'Movie Deleted';
+            );
+            return Response::json($returnData, 200);
+
+        } catch (Exception $e){
+            $returnData = array(
+                'status' => 'error',
+                'message' => $e->getMessage()
+            );
+            return Response::json($returnData, 500);
+        }
     }
 }

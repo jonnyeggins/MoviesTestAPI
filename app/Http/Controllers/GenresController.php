@@ -14,7 +14,10 @@ class GenresController extends Controller
      */
     public function index()
     {
-    	return Genre::getGenres();
+    	$genres = Genre::getGenres();
+    	
+    	return $genres;
+
     }
 
     /**
@@ -25,12 +28,31 @@ class GenresController extends Controller
      */
     public function store(Request $request)
     {
-    	$returnData = array(
+    	//check if the name is not blank
+    	if (request('name') == ''){
+	    	$returnData = array(
+				    'status' => 'error',
+				    'message' => 'Name cannot be blank'
+			);
+			return Response::json($returnData, 500);
+		}
+
+		try {
+        	Genre::create(request(['name']));
+
+        	$returnData = array(
+                'status' => 'success',
+                'message' => 'Genre Created';
+            );
+            return Response::json($returnData, 200);
+
+        } catch (Exception $e){
+    		$returnData = array(
 			    'status' => 'error',
-			    'message' => 'Name cannot be blank'
-		);
-		return Response::json($returnData, 500);
-        Genre::create(request(['name']));
+			    'message' => $e->getMessage()
+			);
+			return Response::json($returnData, 500);
+    	}
     }
 
     /**
@@ -55,17 +77,31 @@ class GenresController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $genre = Genre::find($id);
-        //make sure they have a name 
-		if (request('name') == ''){
-		   	$returnData = array(
+    	try {
+	        $genre = Genre::find($id);
+	        //make sure they have a name 
+			if (request('name') == ''){
+			   	$returnData = array(
+				    'status' => 'error',
+				    'message' => 'Name cannot be blank'
+				);
+				return Response::json($returnData, 500);
+	        }
+	        $genre->name = request('name');
+	        $genre->save();
+	        $returnData = array(
+			    'status' => 'success',
+			    'message' => 'Updated Successfully';
+			);
+			return Response::json($returnData, 200);
+
+    	} catch (Exception $e){
+    		$returnData = array(
 			    'status' => 'error',
-			    'message' => 'Name cannot be blank'
+			    'message' => $e->getMessage()
 			);
 			return Response::json($returnData, 500);
-        }
-        $genre->name = request('name');
-        $genre->save();
+    	}
     }
 
     /**
@@ -76,8 +112,24 @@ class GenresController extends Controller
      */
     public function destroy($id)
     {
-        $genre = Genre::find($id);
+    	try {
+	        $genre = Genre::find($id);
 
-        $genre->delete();
+        	$genre->delete();
+
+        	$returnData = array(
+			    'status' => 'success',
+			    'message' => 'Genre Deleted';
+			);
+			return Response::json($returnData, 200);
+
+    	} catch (Exception $e){
+    		$returnData = array(
+			    'status' => 'error',
+			    'message' => $e->getMessage()
+			);
+			return Response::json($returnData, 500);
+    	}
+
     }
 }
